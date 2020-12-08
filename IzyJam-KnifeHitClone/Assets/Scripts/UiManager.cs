@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -34,22 +35,7 @@ public class UiManager : MonoBehaviour
     public void UpdateStage(int p_stage) => _stageCounter.text = string.Concat("Stage ", p_stage.ToString("00"));
     public void UpdateCoins(int p_coins) => _coins.text = p_coins.ToString("000");
 
-    public void ShowResults()
-    {
-       /* if (p_won)
-        {
-            _resultsTitle.text = "Level Complete";
-            _resultsBtn.text = "Next Level";
-        }
-        else
-        {
-            _resultsTitle.text = "Level Fail";
-            _resultsBtn.text = "Retry Level";
-        }*/
-
-        ShowCanvasGroup(_results);
-        HideCanvasGroup(_inGame);
-    }
+    public void ShowResults() => StartCoroutine(ShowResults(2));
 
     public void Continue()
     {
@@ -73,5 +59,13 @@ public class UiManager : MonoBehaviour
         p_canvasGroup.alpha = 0.0f;
         p_canvasGroup.blocksRaycasts = false;
         p_canvasGroup.interactable = false;
+    }
+
+    private IEnumerator ShowResults(float p_delay)
+    {
+        yield return new WaitForSeconds(p_delay);
+
+        ShowCanvasGroup(_results);
+        HideCanvasGroup(_inGame); ;
     }
 }

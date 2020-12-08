@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -74,20 +72,7 @@ public class GameManager : MonoBehaviour
             SpawnLevel();
         }
         else
-        {
-            Debug.Log("Perdeu");
-
             _uiManager.ShowResults();
-
-            if (_currentStage > _data.bestLevel)
-                _data.bestLevel = _currentStage;
-
-            if (_score > _data.bestScore)
-                _data.bestScore = _score;
-
-            MemorySystem.SaveFile(_data);
-        }
-
     }
 
     public void Continue()
@@ -98,5 +83,15 @@ public class GameManager : MonoBehaviour
         _uiManager.Continue();
     }
 
-    public void ReloadGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    public void ReloadGame()
+    {
+        if (_currentStage > _data.bestLevel)
+                _data.bestLevel = _currentStage;
+
+        if (_score > _data.bestScore)
+            _data.bestScore = _score;
+
+        MemorySystem.SaveFile(_data);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

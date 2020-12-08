@@ -31,8 +31,15 @@ public class Knife : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Knife"))
+        //Se o rigidbody for kinematic, então a faca já colidiu com o alvo e portanto este if não deve ser executado.
+        if (collision.transform.CompareTag("Knife") & !_rigidBody.isKinematic)
+        {
+            _rigidBody.useGravity = true;
+            _rigidBody.velocity = Vector3.zero;
+            _rigidBody.AddForce(collision.contacts[0].normal * 10, ForceMode.Impulse);
             HitKnife();
+            Destroy(gameObject, 3.0f);
+        }
     }
 
     public void Launch()
