@@ -1,17 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Action ThrowKnife = delegate { };
+
     [SerializeField] private Knife _knifePrefab;
 
     private Knife _myKnife;
     [SerializeField] private int _numberOfKnifes;
 
     private GameManager _gameManager;
-
-    private void Awake() => SpawnKnifePrefab();
     
     private void Start() => _gameManager = GameManager.Singleton;
     
@@ -20,10 +21,18 @@ public class Player : MonoBehaviour
         if (!_gameManager.IsPlaying) return;
 
         if (Input.GetMouseButtonDown(0))
+        {
             _myKnife.Launch();
+            ThrowKnife();
+        }
     }
 
-    public void _Init_(int p_numberOfKnifes) => _numberOfKnifes = p_numberOfKnifes;
+    public void _Init_(int p_numberOfKnifes)
+    {
+        _numberOfKnifes = p_numberOfKnifes;
+        SpawnKnifePrefab();
+    } 
+    
     private void SpawnKnifePrefab()
     {
         _myKnife = Instantiate(_knifePrefab, transform).GetComponent<Knife>();
@@ -36,6 +45,9 @@ public class Player : MonoBehaviour
         _myKnife.HitTarget -= OnHitTarget;
         _myKnife.HitKnife -= OnHitKnife;
         _numberOfKnifes--;
+
+        _gameManager.UpdateScore();
+
         if (_numberOfKnifes > 0)
             SpawnKnifePrefab();
         else

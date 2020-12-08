@@ -8,15 +8,24 @@ public class Target : MonoBehaviour
     [SerializeField] private AnimationCurve _curve;
 
     private Transform _transform;
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _transform = transform;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         _transform.Rotate(Vector3.forward * _rotationSpeed * _curve.Evaluate(Time.time) *  Time.fixedDeltaTime);
+    }
+
+    public void _Init_(float p_rotationSpeed, AnimationCurve p_curve)
+    {
+        _rotationSpeed = p_rotationSpeed;
+        _curve = p_curve;
+    }
+
+    public void DestroyTarget()
+    {
+        Destroy(gameObject);
     }
 }

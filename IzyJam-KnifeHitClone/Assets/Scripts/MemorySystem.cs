@@ -5,15 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class MemorySystemData
 {
-    public int level;
-    public int levelDisplay;
-    public bool isNewSession;
+    public int bestLevel;
+    public int bestScore;
+    public int coins;
 
     public MemorySystemData()
     {
-        level = 0;
-        levelDisplay = 1;
-        isNewSession = true;
+        bestLevel = 0;
+        bestScore = 0;
+        coins = 0;
     }
 }
 
