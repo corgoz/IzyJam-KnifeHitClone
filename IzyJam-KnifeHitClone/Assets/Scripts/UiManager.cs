@@ -20,7 +20,8 @@ public class UiManager : MonoBehaviour
     public void _Init_(float p_numberOfKnifes)
     {
         _knifeCounter.maxValue = p_numberOfKnifes;
-        _knifeCounter.value = p_numberOfKnifes;      
+        _knifeCounter.value = p_numberOfKnifes;
+        _knifeCounter.GetComponent<RectTransform>().sizeDelta = new Vector2(128, 128 * 5);
     }
 
     public void StartGame(Player p_player)
@@ -47,14 +48,14 @@ public class UiManager : MonoBehaviour
 
     private void OnThrowKnife() => _knifeCounter.value --;
 
-    private void ShowCanvasGroup(CanvasGroup p_canvasGroup)
+    public void ShowCanvasGroup(CanvasGroup p_canvasGroup)
     {
         p_canvasGroup.alpha = 1.0f;
         p_canvasGroup.blocksRaycasts = true;
         p_canvasGroup.interactable = true;
     }
     
-    private void HideCanvasGroup(CanvasGroup p_canvasGroup)
+    public void HideCanvasGroup(CanvasGroup p_canvasGroup)
     {
         p_canvasGroup.alpha = 0.0f;
         p_canvasGroup.blocksRaycasts = false;

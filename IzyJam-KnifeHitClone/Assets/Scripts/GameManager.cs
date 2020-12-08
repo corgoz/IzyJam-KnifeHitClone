@@ -54,9 +54,9 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
-    public void GetCoin()
+    public void GetCoin(int p_amount)
     {
-        _data.coins++;
+        _data.coins += p_amount;
         _uiManager.UpdateCoins(_data.coins);
     }
 
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             _currentStage++;
             _currentTarget.DestroyTarget();
             _uiManager.UpdateStage(_currentStage);
-            SpawnLevel();
+            Invoke("SpawnLevel", 3.0f);
         }
         else
             _uiManager.ShowResults();

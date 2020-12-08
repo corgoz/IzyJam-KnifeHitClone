@@ -8,6 +8,8 @@ public class Knife : MonoBehaviour
     public Action HitTarget = delegate { };
     public Action HitKnife= delegate { };
 
+    [SerializeField] private ParticleSystem _hitFX;
+
     private Transform _transform;
     private Rigidbody _rigidBody;
 
@@ -24,6 +26,7 @@ public class Knife : MonoBehaviour
             _transform.parent = other.transform;
             _rigidBody.isKinematic = true;
             _rigidBody.velocity = Vector3.zero;
+            _hitFX.Play();
             HitTarget();
             Destroy(this);
         }
