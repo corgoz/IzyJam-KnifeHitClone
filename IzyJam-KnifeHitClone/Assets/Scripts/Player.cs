@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -32,6 +30,8 @@ public class Player : MonoBehaviour
         _numberOfKnifes = p_numberOfKnifes;
         SpawnKnifePrefab();
     } 
+    
+    public void Continue() => SpawnKnifePrefab();
     
     private void SpawnKnifePrefab()
     {

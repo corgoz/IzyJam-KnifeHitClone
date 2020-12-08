@@ -51,6 +51,14 @@ public class UiManager : MonoBehaviour
         HideCanvasGroup(_inGame);
     }
 
+    public void Continue()
+    {
+        _knifeCounter.value++;
+
+        ShowCanvasGroup(_inGame);
+        HideCanvasGroup(_results);
+    }
+
     private void OnThrowKnife() => _knifeCounter.value --;
 
     private void ShowCanvasGroup(CanvasGroup p_canvasGroup)

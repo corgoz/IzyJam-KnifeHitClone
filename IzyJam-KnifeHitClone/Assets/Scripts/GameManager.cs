@@ -90,5 +90,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void Continue()
+    {
+        IsPlaying = true;
+
+        _player.Continue();
+        _uiManager.Continue();
+    }
+
     public void ReloadGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 }
