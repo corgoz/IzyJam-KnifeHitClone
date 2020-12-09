@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -7,22 +6,32 @@ public class Target : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private AnimationCurve _curve;
 
+    [SerializeField] private Transform _coinsParent;
+    [SerializeField] private Transform _knifeObstaclesParent;
+
     [SerializeField] private GameObject _explosionFX;
 
-
     private List<Rigidbody> _knifes;
+    private List<GameObject> _coins;
+    private List<GameObject> _knifeObstacles;
     private Transform _transform;
-    private void Start()
+
+    private void Awake()
     {
         _transform = transform;
         _knifes = new List<Rigidbody>();
+        _coins = new List<GameObject>();
+        _knifeObstacles = new List<GameObject>();
+
+        for (int i = 0; i < _coinsParent.childCount; i++)
+            _coins.Add(_coinsParent.GetChild(i).gameObject);
+
+        for (int i = 0; i < _knifeObstaclesParent.childCount; i++)
+            _knifeObstacles.Add(_knifeObstaclesParent.GetChild(i).gameObject);
     }
 
-    private void FixedUpdate()
-    {
-        _transform.Rotate(Vector3.forward * _rotationSpeed * _curve.Evaluate(Time.time) *  Time.fixedDeltaTime);
-    }
-
+    private void FixedUpdate() => _transform.Rotate(Vector3.forward * _rotationSpeed * _curve.Evaluate(Time.time) * Time.fixedDeltaTime);
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Knife"))
@@ -33,6 +42,24 @@ public class Target : MonoBehaviour
     {
         _rotationSpeed = p_rotationSpeed;
         _curve = p_curve;
+
+        int numberOfKnifesObstacle = Random.Range(0, _knifeObstacles.Count);
+        while(numberOfKnifesObstacle > 0)
+        {
+            int index = Random.Range(0, _knifeObstacles.Count);
+            _knifeObstacles[index].SetActive(true);
+            _knifeObstacles.RemoveAt(index);
+            numberOfKnifesObstacle--;
+        }
+
+        int numberOfCoins= Random.Range(0, _coins.Count);
+        while (numberOfCoins > 0)
+        {
+            int index = Random.Range(0, _coins.Count);
+            _coins[index].SetActive(true);
+            _coins.RemoveAt(index);
+            numberOfCoins--;
+        }
     }
 
     public void DestroyTarget()

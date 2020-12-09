@@ -20,6 +20,7 @@ public class Coin : MonoBehaviour
             GameManager.Singleton.GetCoin(_value);
             transform.GetChild(_activeCoinIndex).gameObject.SetActive(false);
             _coinBlastFX.Play();
+            GetComponent<Collider>().enabled = false;
             Destroy(gameObject, 2.0f);
         }
     }

@@ -9,5 +9,4 @@ public class Stage : ScriptableObject
     public AnimationCurve curve;
 
     public int numberOfKnifes;
-
 }

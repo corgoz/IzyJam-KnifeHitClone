@@ -5,15 +5,24 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class MemorySystemData
 {
-    public int bestLevel;
+    public int bestStage;
     public int bestScore;
     public int coins;
+    public bool[] skins;
+    public int currentSkin;
+    public bool isHapticOn;
 
-    public MemorySystemData()
+    public MemorySystemData(int p_numberOfSkins)
     {
-        bestLevel = 0;
+        bestStage = 0;
         bestScore = 0;
         coins = 0;
+
+        skins = new bool[p_numberOfSkins];
+        skins[0] = true;
+        currentSkin = 0;
+
+        isHapticOn = false;
     }
 }
 

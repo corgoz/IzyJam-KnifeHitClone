@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Knife : MonoBehaviour
@@ -8,7 +6,10 @@ public class Knife : MonoBehaviour
     public Action HitTarget = delegate { };
     public Action HitKnife= delegate { };
 
+    public Transform GfxTransfom;
+
     [SerializeField] private ParticleSystem _hitFX;
+    [SerializeField] private float _throwForce;
 
     private Transform _transform;
     private Rigidbody _rigidBody;
@@ -45,8 +46,5 @@ public class Knife : MonoBehaviour
         }
     }
 
-    public void Launch()
-    {
-        _rigidBody.AddForce(Vector3.up * 10, ForceMode.Impulse);
-    }
+    public void Throw() => _rigidBody.AddForce(Vector3.up * _throwForce, ForceMode.Impulse);       
 }

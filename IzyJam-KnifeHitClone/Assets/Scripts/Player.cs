@@ -8,7 +8,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Knife _knifePrefab;
 
     private Knife _myKnife;
-    [SerializeField] private int _numberOfKnifes;
+    private GameObject _knifeSkin;
+    private int _numberOfKnifes;
+    private bool _isThrowingKnife;
 
     private GameManager _gameManager;
     
@@ -18,16 +20,18 @@ public class Player : MonoBehaviour
     {
         if (!_gameManager.IsPlaying) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) & !_isThrowingKnife) 
         {
-            _myKnife.Launch();
+            _myKnife.Throw();
             ThrowKnife();
+            _isThrowingKnife = true;
         }
     }
 
-    public void _Init_(int p_numberOfKnifes)
+    public void _Init_(int p_numberOfKnifes, GameObject p_knifeSkin)
     {
         _numberOfKnifes = p_numberOfKnifes;
+        _knifeSkin = p_knifeSkin;
         SpawnKnifePrefab();
     } 
     
@@ -35,9 +39,12 @@ public class Player : MonoBehaviour
     
     private void SpawnKnifePrefab()
     {
+        _isThrowingKnife = false;
         _myKnife = Instantiate(_knifePrefab, transform).GetComponent<Knife>();
         _myKnife.HitTarget += OnHitTarget;
         _myKnife.HitKnife += OnHitKnife;
+
+        Instantiate(_knifeSkin, _myKnife.GfxTransfom);
     }
 
     private void OnHitTarget()
@@ -46,17 +53,17 @@ public class Player : MonoBehaviour
         _myKnife.HitKnife -= OnHitKnife;
         _numberOfKnifes--;
 
-        _gameManager.UpdateScore();
+        _gameManager.IncrementScore();
 
         if (_numberOfKnifes > 0)
             SpawnKnifePrefab();
         else
-            _gameManager.EndGame(true);
+            _gameManager.EndStage(true);
     }
 
     private void OnHitKnife()
     {
         _myKnife = null;
-        _gameManager.EndGame(false);
+        _gameManager.EndStage(false);
     }
 }
